@@ -1,0 +1,7 @@
+name: AgeChecker
+main: com.github.thelonedevil.AgeChecker.App
+version: 1
+commands:
+   DOB:
+      description: This command registers your date of birth with the server
+      usage: /<command> [DD/MM/YYYY]
