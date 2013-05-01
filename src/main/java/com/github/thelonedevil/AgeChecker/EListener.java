@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 public class EListener implements Listener {
 	static String name;
@@ -23,5 +24,10 @@ public class EListener implements Listener {
 			}
 		}
 	}
-
+	@EventHandler
+	public void onMove(PlayerMoveEvent event) {
+		if (App.DOB.get(name) == null){
+			event.setCancelled(true);
+		}
+	}
 }

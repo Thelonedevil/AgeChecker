@@ -24,7 +24,7 @@ public class DOBCommand implements CommandExecutor {
 			Calendar cal1 = Calendar.getInstance();
 			Calendar cal2 = Calendar.getInstance();
 			cal1.setTime(now);
-			cal1.add(Calendar.YEAR, -13);
+			cal1.add(Calendar.YEAR, -App.age);
 			String dob1 = args[0];
 			char y1 = dob1.charAt(6);
 			char y2 = dob1.charAt(7);
@@ -63,6 +63,7 @@ public class DOBCommand implements CommandExecutor {
 				} else {
 					if (year < year1) {
 						App.allowed.put(name, false);
+						player.kickPlayer("You are not old enough to play on this server");
 					}
 					if (year == year1) {
 						if (month > month1) {
@@ -70,24 +71,26 @@ public class DOBCommand implements CommandExecutor {
 						} else {
 							if (month < month1) {
 								App.allowed.put(name, false);
+								player.kickPlayer("You are not old enough to play on this server");
 							}
 							if (month == month1) {
 								if (day >= day1) {
 									App.allowed.put(name, true);
 								} else if (day < day1) {
 									App.allowed.put(name, false);
+									player.kickPlayer("You are not old enough to play on this server");
 								}
 							}
 						}
 
-					} else if (App.allowed.get(name) == false) {
-						player.kickPlayer("You are not old enough to play on this server");
-					} else if (App.allowed.get(name) == true) {
-						player.sendMessage("You are old enough to play on this server");
-					}
+					} 
 
 				}
 
+			}else if (App.allowed.get(name) == false) {
+				player.kickPlayer("You are not old enough to play on this server");
+			} else if (App.allowed.get(name) == true) {
+				player.sendMessage("You are old enough to play on this server");
 			}
 			return true;
 		}
