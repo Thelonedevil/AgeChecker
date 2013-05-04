@@ -9,20 +9,22 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class DOBCommand implements CommandExecutor {
-
+	
 	private App plugin;
 
 	public DOBCommand(App plugin) {
 		this.plugin = plugin;
 	}
 
+	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("DOB") && sender instanceof Player) {
 			Player player = (Player) sender;
 			String name = player.getName();
 			Date now = new Date();
-			Calendar cal1 = Calendar.getInstance();
+			Date their =  new Date();
 			Calendar cal2 = Calendar.getInstance();
+			Calendar cal1 = Calendar.getInstance();	
 			cal1.setTime(now);
 			cal1.add(Calendar.YEAR, -App.age);
 			String dob1 = args[0];
@@ -48,49 +50,32 @@ public class DOBCommand implements CommandExecutor {
 			int year3 = Integer.parseInt(year2);
 			int month3 = Integer.parseInt(month2) - 1;
 			int date3 = Integer.parseInt(date2);
-			cal2.clear();
-			cal2.set(year3, month3, date3);
-			App.DOB.put(name, cal2);
-			int year = cal1.get(Calendar.YEAR);
-			int month = cal1.get(Calendar.MONTH);
-			int day = cal1.get(Calendar.DATE);
-			int year1 = cal2.get(Calendar.YEAR);
-			int month1 = cal2.get(Calendar.MONTH);
-			int day1 = cal2.get(Calendar.DATE);
+			their.setYear(year3);
+			their.setMonth(month3);
+			their.setDate(date3);
+			cal2.setTime(their);
+			App.DOB.put(name, their);
 			if (App.allowed.get(name) == null) {
-				if (year > year1) {
+				if (cal1.compareTo(cal2) <= 0) {
 					App.allowed.put(name, true);
-				} else {
-					if (year < year1) {
-						App.allowed.put(name, false);
-						player.kickPlayer("You are not old enough to play on this server");
+					if (App.succsess == "default") {
+						player.sendMessage("You are old enough to play on this server");
+					} else if (App.succsess != "default") {
+						CommandSender sender1 = plugin.getServer().getConsoleSender();
+						plugin.getServer().dispatchCommand(sender1, App.succsess);
 					}
-					if (year == year1) {
-						if (month > month1) {
-							App.allowed.put(name, true);
-						} else {
-							if (month < month1) {
-								App.allowed.put(name, false);
-								player.kickPlayer("You are not old enough to play on this server");
-							}
-							if (month == month1) {
-								if (day >= day1) {
-									App.allowed.put(name, true);
-								} else if (day < day1) {
-									App.allowed.put(name, false);
-									player.kickPlayer("You are not old enough to play on this server");
-								}
-							}
-						}
 
-					} 
+				} else if (cal1.compareTo(cal2) > 0) {
+					App.allowed.put(name, false);
+					if (App.failure == "default") {
+						player.kickPlayer("You are not old enough to play on this server");
+					} else if (App.failure != "default") {
+						CommandSender sender1 = plugin.getServer().getConsoleSender();
+						plugin.getServer().dispatchCommand(sender1, App.failure);
 
+					}
 				}
 
-			}else if (App.allowed.get(name) == false) {
-				player.kickPlayer("You are not old enough to play on this server");
-			} else if (App.allowed.get(name) == true) {
-				player.sendMessage("You are old enough to play on this server");
 			}
 			return true;
 		}

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,18 +18,24 @@ public class App extends JavaPlugin {
 	static int age = 13;
 	File file = new File("plugins/AgeChecker/config.yml");
 	static String error = "An error has happened...... incoming stack trace....";
-	static HashMap<String, Calendar> DOB = new HashMap<String, Calendar>();
+	static HashMap<String, Date> DOB = new HashMap<String, Date>();
 	static HashMap<String, Boolean> allowed = new HashMap<String, Boolean>();
+	static boolean lock = true;
+	static String succsess;
+	static String failure;
 
 	public void onEnable() {
 		getCommand("DOB").setExecutor(new DOBCommand(this));
-		getServer().getPluginManager().registerEvents(new EListener(), this);
+		getCommand("bypass").setExecutor(new BypassCommand(this));
+		getCommand("list").setExecutor(new List(this));
+		getServer().getPluginManager().registerEvents(new EListener(this), this);
 		getLogger().info("Listeners have been enabled");
 		dobyaml();
 		dobyamls();
 		allowedyaml();
 		allowedyamls();
 		config();
+		task();
 		getLogger().info("Plugin enabled");
 	}
 
@@ -49,7 +56,7 @@ public class App extends JavaPlugin {
 			try {
 				InputStream input = new FileInputStream(dobyaml1);
 				Yaml yaml = new Yaml();
-				DOB = (HashMap<String, Calendar>) yaml.load(input);
+				DOB = (HashMap<String, Date>) yaml.load(input);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -110,7 +117,22 @@ public class App extends JavaPlugin {
 
 	void config() {
 		this.saveDefaultConfig();
-		YamlConfiguration ageyml = YamlConfiguration.loadConfiguration(file);
-		age = (Integer) ageyml.get("age");
+		YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+		age = (Integer) config.get("age");
+		lock = (Boolean) config.get("lock");
+		succsess = (String) config.get("succsess");
+		failure = (String) config .get("failure");
+	}
+	
+	public void task(){
+		for(int count = 0; count>10000; count++){
+			if(count==9999){
+				dobyaml();
+				dobyamls();
+				allowedyaml();
+				allowedyamls();				
+				task();
+			}else continue;
+		}
 	}
 }
