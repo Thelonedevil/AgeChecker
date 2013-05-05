@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -20,14 +19,16 @@ public class App extends JavaPlugin {
 	static String error = "An error has happened...... incoming stack trace....";
 	static HashMap<String, Date> DOB = new HashMap<String, Date>();
 	static HashMap<String, Boolean> allowed = new HashMap<String, Boolean>();
-	static boolean lock = true;
-	static String succsess;
+	static boolean lock;
+	static String success;
 	static String failure;
+	static boolean birthdaysage;
 
 	public void onEnable() {
 		getCommand("DOB").setExecutor(new DOBCommand(this));
 		getCommand("bypass").setExecutor(new BypassCommand(this));
-		getCommand("list").setExecutor(new List(this));
+		getCommand("birthday").setExecutor(new List(this));
+		getCommand("birthdays").setExecutor(new Birthdays(this));
 		getServer().getPluginManager().registerEvents(new EListener(this), this);
 		getLogger().info("Listeners have been enabled");
 		dobyaml();
@@ -120,8 +121,9 @@ public class App extends JavaPlugin {
 		YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 		age = (Integer) config.get("age");
 		lock = (Boolean) config.get("lock");
-		succsess = (String) config.get("succsess");
+		success = (String) config.get("succsess");
 		failure = (String) config .get("failure");
+		birthdaysage = (Boolean) config.get("birthdaysage");
 	}
 	
 	public void task(){

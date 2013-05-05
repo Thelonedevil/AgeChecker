@@ -22,10 +22,11 @@ public class BypassCommand implements CommandExecutor {
 				if (set1 == "true"){
 					App.allowed.put(target, true);
 					sender.sendMessage(target+" has been allowed to bypass the age gate");
-					if (App.succsess == "default") {
-					} else if (App.succsess != "default") {
+					if (App.success == "default") {
+					} else if (App.success != "default") {
 						CommandSender sender1 = plugin.getServer().getConsoleSender();
-						plugin.getServer().dispatchCommand(sender1, App.succsess);
+						String cmds = App.success.replace("%target%", target);
+						plugin.getServer().dispatchCommand(sender1, cmds);
 					}
 				} else if (set1 == "false"){
 					App.allowed.put(target, false);
@@ -33,7 +34,8 @@ public class BypassCommand implements CommandExecutor {
 					if (App.failure == "default") {
 					} else if (App.failure != "default") {
 						CommandSender sender1 = plugin.getServer().getConsoleSender();
-						plugin.getServer().dispatchCommand(sender1, App.failure);
+						String cmds = App.failure.replace("%target%", target);
+						plugin.getServer().dispatchCommand(sender1, cmds);
 
 					}
 				} else if (set1 != "true" || set1 != "false"){

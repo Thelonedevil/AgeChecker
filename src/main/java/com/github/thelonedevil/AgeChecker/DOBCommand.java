@@ -58,11 +58,12 @@ public class DOBCommand implements CommandExecutor {
 			if (App.allowed.get(name) == null) {
 				if (cal1.compareTo(cal2) <= 0) {
 					App.allowed.put(name, true);
-					if (App.succsess == "default") {
+					if (App.success == "default") {
 						player.sendMessage("You are old enough to play on this server");
-					} else if (App.succsess != "default") {
+					} else if (App.success != "default") {
 						CommandSender sender1 = plugin.getServer().getConsoleSender();
-						plugin.getServer().dispatchCommand(sender1, App.succsess);
+						String cmds = App.success.replace("%target%", name);
+						plugin.getServer().dispatchCommand(sender1, cmds);
 					}
 
 				} else if (cal1.compareTo(cal2) > 0) {
@@ -71,7 +72,8 @@ public class DOBCommand implements CommandExecutor {
 						player.kickPlayer("You are not old enough to play on this server");
 					} else if (App.failure != "default") {
 						CommandSender sender1 = plugin.getServer().getConsoleSender();
-						plugin.getServer().dispatchCommand(sender1, App.failure);
+						String cmds = App.failure.replace("%target%", name);
+						plugin.getServer().dispatchCommand(sender1, cmds);
 
 					}
 				}
