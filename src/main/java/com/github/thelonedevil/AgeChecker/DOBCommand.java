@@ -82,6 +82,7 @@ public class DOBCommand implements CommandExecutor {
 
 				}
 			} catch (ArrayIndexOutOfBoundsException e) {
+				plugin.errorLogger();
 				e.printStackTrace();
 				player.sendMessage("Error entering Date of Birth");
 
