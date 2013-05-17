@@ -8,3 +8,5 @@ success: default
 failure: default
 # whether or not to display players age with the /birthdays command
 birthdaysage: false
+# date format for the DOB command, please use either DD/MM/YYYY or MM/DD/YYYY
+DateFormat: DD/MM/YYYY

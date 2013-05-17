@@ -23,6 +23,7 @@ public class App extends JavaPlugin {
 	static String success;
 	static String failure;
 	static boolean birthdaysage;
+	static String dateformat;
 
 	public void onEnable() {
 		getCommand("DOB").setExecutor(new DOBCommand(this));
@@ -124,17 +125,19 @@ public class App extends JavaPlugin {
 		success = (String) config.get("succsess");
 		failure = (String) config .get("failure");
 		birthdaysage = (Boolean) config.get("birthdaysage");
+		dateformat = (String) config.get("DateFormat");
 	}
-	
-	public void task(){
-		for(int count = 0; count>10000; count++){
-			if(count==9999){
+
+	public void task() {
+		for (int count = 0; count > 10000; count++) {
+			if (count == 9999) {
 				dobyaml();
 				dobyamls();
 				allowedyaml();
-				allowedyamls();				
+				allowedyamls();
 				task();
-			}else continue;
+			} else
+				continue;
 		}
 	}
 }

@@ -29,15 +29,34 @@ public class DOBCommand implements CommandExecutor {
 			cal1.add(Calendar.YEAR, -App.age);
 			String dob1;
 			try {
-				dob1 = args[0];			
-				char y1 = dob1.charAt(6);
-				char y2 = dob1.charAt(7);
-				char y3 = dob1.charAt(8);
-				char y4 = dob1.charAt(9);
-				char m1 = dob1.charAt(3);
-				char m2 = dob1.charAt(4);
-				char d1 = dob1.charAt(0);
-				char d2 = dob1.charAt(1);
+				dob1 = args[0];
+				char y1;
+				char y2;
+				char y3;
+				char y4;
+				char m1;
+				char m2;
+				char d1;
+				char d2;
+				if (App.dateformat == "DD/MM/YYYY") {
+					y1 = dob1.charAt(6);
+					y2 = dob1.charAt(7);
+					y3 = dob1.charAt(8);
+					y4 = dob1.charAt(9);
+					m1 = dob1.charAt(3);
+					m2 = dob1.charAt(4);
+					d1 = dob1.charAt(0);
+					d2 = dob1.charAt(1);
+				} else {
+					y1 = dob1.charAt(6);
+					y2 = dob1.charAt(7);
+					y3 = dob1.charAt(8);
+					y4 = dob1.charAt(9);
+					m1 = dob1.charAt(0);
+					m2 = dob1.charAt(1);
+					d1 = dob1.charAt(3);
+					d2 = dob1.charAt(4);
+				}
 				String y5 = Character.toString(y1);
 				String y6 = Character.toString(y2);
 				String y7 = Character.toString(y3);
