@@ -2,9 +2,9 @@
 age: 13
 # either true or false, whether or not you want new players position locked untill age checked
 lock: true
-# the command to execute when player is over set age
+# the command to execute when player is over set age can use %target% to represt the player name
 success: default
-# the command to execute when player is not over set age
+# the command to execute when player is not over set age can use %target% to represt the player name
 failure: default
 # whether or not to display players age with the /birthdays command
 birthdaysage: false
