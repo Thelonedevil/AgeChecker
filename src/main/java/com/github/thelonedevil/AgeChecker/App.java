@@ -26,6 +26,7 @@ public class App extends JavaPlugin {
 	static String dateformat;
 
 	public void onEnable() {
+		config();
 		getCommand("DOB").setExecutor(new DOBCommand(this));
 		getCommand("bypass").setExecutor(new BypassCommand(this));
 		getCommand("birthday").setExecutor(new List(this));
@@ -36,8 +37,8 @@ public class App extends JavaPlugin {
 		dobyamls();
 		allowedyaml();
 		allowedyamls();
-		config();
 		task();
+		getLogger().info("Using "+dateformat+ " as the date format");
 		getLogger().info("Plugin enabled");
 	}
 
@@ -122,10 +123,10 @@ public class App extends JavaPlugin {
 		YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 		age = (Integer) config.get("age");
 		lock = (Boolean) config.get("lock");
-		success = (String) config.get("succsess");
-		failure = (String) config .get("failure");
+		success = (String) config.get("success");
+		failure = (String) config.get("failure");
 		birthdaysage = (Boolean) config.get("birthdaysage");
-		dateformat = (String) config.get("DateFormat");
+		dateformat = config.getString("DateFormat");
 	}
 
 	public void task() {

@@ -38,7 +38,7 @@ public class DOBCommand implements CommandExecutor {
 				char m2;
 				char d1;
 				char d2;
-				if (App.dateformat == "DD/MM/YYYY") {
+				if (App.dateformat.equalsIgnoreCase("DD/MM/YYYY")) {
 					y1 = dob1.charAt(6);
 					y2 = dob1.charAt(7);
 					y3 = dob1.charAt(8);
@@ -47,7 +47,47 @@ public class DOBCommand implements CommandExecutor {
 					m2 = dob1.charAt(4);
 					d1 = dob1.charAt(0);
 					d2 = dob1.charAt(1);
-				} else {
+					String y5 = Character.toString(y1);
+					String y6 = Character.toString(y2);
+					String y7 = Character.toString(y3);
+					String y8 = Character.toString(y4);
+					String m3 = Character.toString(m1);
+					String m4 = Character.toString(m2);
+					String d3 = Character.toString(d1);
+					String d4 = Character.toString(d2);
+					String year2 = y5 + y6 + y7 + y8;
+					String month2 = m3 + m4;
+					String date2 = d3 + d4;
+					int year3 = Integer.parseInt(year2);
+					int month3 = Integer.parseInt(month2) - 1;
+					int date3 = Integer.parseInt(date2);
+					their.setYear(year3);
+					their.setMonth(month3);
+					their.setDate(date3);
+					cal2.setTime(their);
+					App.DOB.put(name, their);
+					if (App.allowed.get(name) == null) {
+						if (cal1.compareTo(cal2) <= 0) {
+							App.allowed.put(name, true);
+							if (App.success.equalsIgnoreCase("default")) {
+								player.sendMessage("You are old enough to play on this server");
+							} else if (!App.success.equalsIgnoreCase("default")) {
+								CommandSender sender1 = plugin.getServer().getConsoleSender();
+								String cmds = App.success.replace("%target%", name);
+								plugin.getServer().dispatchCommand(sender1, cmds);
+							}
+						} else if (cal1.compareTo(cal2) > 0) {
+							App.allowed.put(name, false);
+							if (App.failure.equalsIgnoreCase("default")) {
+								player.kickPlayer("You are not old enough to play on this server");
+							} else if (!App.failure.equalsIgnoreCase("default")) {
+								CommandSender sender1 = plugin.getServer().getConsoleSender();
+								String cmds = App.failure.replace("%target%", name);
+								plugin.getServer().dispatchCommand(sender1, cmds);
+							}
+						}
+					}
+				} else if (App.dateformat.equalsIgnoreCase("MM/DD/YYYY")) {
 					y1 = dob1.charAt(6);
 					y2 = dob1.charAt(7);
 					y3 = dob1.charAt(8);
@@ -56,49 +96,47 @@ public class DOBCommand implements CommandExecutor {
 					m2 = dob1.charAt(1);
 					d1 = dob1.charAt(3);
 					d2 = dob1.charAt(4);
-				}
-				String y5 = Character.toString(y1);
-				String y6 = Character.toString(y2);
-				String y7 = Character.toString(y3);
-				String y8 = Character.toString(y4);
-				String m3 = Character.toString(m1);
-				String m4 = Character.toString(m2);
-				String d3 = Character.toString(d1);
-				String d4 = Character.toString(d2);
-				String year2 = y5 + y6 + y7 + y8;
-				String month2 = m3 + m4;
-				String date2 = d3 + d4;
-				int year3 = Integer.parseInt(year2);
-				int month3 = Integer.parseInt(month2) - 1;
-				int date3 = Integer.parseInt(date2);
-				their.setYear(year3);
-				their.setMonth(month3);
-				their.setDate(date3);
-				cal2.setTime(their);
-				App.DOB.put(name, their);
-				if (App.allowed.get(name) == null) {
-					if (cal1.compareTo(cal2) <= 0) {
-						App.allowed.put(name, true);
-						if (App.success == "default") {
-							player.sendMessage("You are old enough to play on this server");
-						} else if (App.success != "default") {
-							CommandSender sender1 = plugin.getServer().getConsoleSender();
-							String cmds = App.success.replace("%target%", name);
-							plugin.getServer().dispatchCommand(sender1, cmds);
-						}
+					String y5 = Character.toString(y1);
+					String y6 = Character.toString(y2);
+					String y7 = Character.toString(y3);
+					String y8 = Character.toString(y4);
+					String m3 = Character.toString(m1);
+					String m4 = Character.toString(m2);
+					String d3 = Character.toString(d1);
+					String d4 = Character.toString(d2);
+					String year2 = y5 + y6 + y7 + y8;
+					String month2 = m3 + m4;
+					String date2 = d3 + d4;
+					int year3 = Integer.parseInt(year2);
+					int month3 = Integer.parseInt(month2) - 1;
+					int date3 = Integer.parseInt(date2);
+					their.setYear(year3);
+					their.setMonth(month3);
+					their.setDate(date3);
+					cal2.setTime(their);
+					App.DOB.put(name, their);
+					if (App.allowed.get(name) == null) {
+						if (cal1.compareTo(cal2) <= 0) {
+							App.allowed.put(name, true);
+							if (App.success.equalsIgnoreCase("default")) {
+								player.sendMessage("You are old enough to play on this server");
+							} else if (!App.success.equalsIgnoreCase("default")) {
+								CommandSender sender1 = plugin.getServer().getConsoleSender();
+								String cmds = App.success.replace("%target%", name);
+								plugin.getServer().dispatchCommand(sender1, cmds);
+							}
 
-					} else if (cal1.compareTo(cal2) > 0) {
-						App.allowed.put(name, false);
-						if (App.failure == "default") {
-							player.kickPlayer("You are not old enough to play on this server");
-						} else if (App.failure != "default") {
-							CommandSender sender1 = plugin.getServer().getConsoleSender();
-							String cmds = App.failure.replace("%target%", name);
-							plugin.getServer().dispatchCommand(sender1, cmds);
-
+						} else if (cal1.compareTo(cal2) > 0) {
+							App.allowed.put(name, false);
+							if (App.failure.equalsIgnoreCase("default")) {
+								player.kickPlayer("You are not old enough to play on this server");
+							} else if (!App.failure.equalsIgnoreCase("default")) {
+								CommandSender sender1 = plugin.getServer().getConsoleSender();
+								String cmds = App.failure.replace("%target%", name);
+								plugin.getServer().dispatchCommand(sender1, cmds);
+							}
 						}
 					}
-
 				}
 			} catch (ArrayIndexOutOfBoundsException e) {
 				plugin.errorLogger();

@@ -34,7 +34,7 @@ public class EListener implements Listener {
 
 		if (App.DOB.get(name) == null) {
 			player.sendMessage(ChatColor.BOLD + "Please" + ChatColor.UNDERLINE + ChatColor.BLUE + " verify your age" + ChatColor.RESET + " by using the command:" + ChatColor.GOLD + " /DOB"
-					+ ChatColor.GREEN + " <Your date of birth goes here in the format" + ChatColor.DARK_AQUA + App.dateformat + ">");
+					+ ChatColor.GREEN + " <Your date of birth goes here in the format " + ChatColor.DARK_AQUA + App.dateformat + ">");
 		} else if (App.DOB.get(name) != null) {
 			cal2.setTime(App.DOB.get(name));
 			if (App.allowed.get(name) == true) {
@@ -101,10 +101,7 @@ public class EListener implements Listener {
 		String name = player.getName();
 		if (App.DOB.get(name) == null && App.lock) {
 			Location loc = player.getLocation();
-			player.setWalkSpeed(0.0F);
-		}
-		if (App.DOB.get(name) != null) {
-			player.setWalkSpeed(0.0F);
+			player.teleport(loc);
 		}
 	}
 }
