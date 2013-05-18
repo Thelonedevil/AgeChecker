@@ -29,8 +29,10 @@ public class Birthdays implements CommandExecutor {
 				int d2 = date.getDate();
 				int m1 = now.getMonth();
 				int m2 = date.getMonth();
-				int y1 = now.getYear() + 1900;
+				int y1 = now.getYear();
 				int y2 = date.getYear();
+				plugin.getServer().getLogger().info("now is "+y1);
+				plugin.getServer().getLogger().info(key+" is "+y2);
 				if (m1 == m2) {
 					if (d1 == d2) {
 						if (App.birthdaysage == true) {
@@ -45,7 +47,11 @@ public class Birthdays implements CommandExecutor {
 				}
 				array++;
 			}
-			sender.sendMessage(message);
+			if(message[0]!=null){
+				sender.sendMessage(message);
+			}else if(message[0] == null){
+				sender.sendMessage("No birthdays today");
+			}
 		}
 		return true;
 	}

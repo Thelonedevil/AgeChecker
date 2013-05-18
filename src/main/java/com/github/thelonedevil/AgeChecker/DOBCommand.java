@@ -1,6 +1,5 @@
 package com.github.thelonedevil.AgeChecker;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import org.bukkit.command.Command;
@@ -16,17 +15,18 @@ public class DOBCommand implements CommandExecutor {
 		this.plugin = plugin;
 	}
 
+	Player player;
+	String name;
+
 	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("DOB") && sender instanceof Player) {
-			Player player = (Player) sender;
-			String name = player.getName();
+			player = (Player) sender;
+			name = player.getName();
 			Date now = new Date();
 			Date their = new Date();
-			Calendar cal2 = Calendar.getInstance();
-			Calendar cal1 = Calendar.getInstance();
-			cal1.setTime(now);
-			cal1.add(Calendar.YEAR, -App.age);
+			int year5 = now.getYear();
+			now.setYear(year5 - App.age);
 			String dob1;
 			try {
 				dob1 = args[0];
@@ -59,31 +59,73 @@ public class DOBCommand implements CommandExecutor {
 					String month2 = m3 + m4;
 					String date2 = d3 + d4;
 					int year3 = Integer.parseInt(year2);
-					int month3 = Integer.parseInt(month2) - 1;
+					int month3 = Integer.parseInt(month2);
 					int date3 = Integer.parseInt(date2);
-					their.setYear(year3);
-					their.setMonth(month3);
+					their.setYear(year3 - 1900);
+					their.setMonth(month3 - 1);
 					their.setDate(date3);
-					cal2.setTime(their);
+					int year4 = now.getYear();
+					int month4 = now.getMonth();
+					int date4 = now.getDate();
 					App.DOB.put(name, their);
 					if (App.allowed.get(name) == null) {
-						if (cal1.compareTo(cal2) <= 0) {
+						if (year4 > year4) {
 							App.allowed.put(name, true);
 							if (App.success.equalsIgnoreCase("default")) {
-								player.sendMessage("You are old enough to play on this server");
-							} else if (!App.success.equalsIgnoreCase("default")) {
-								CommandSender sender1 = plugin.getServer().getConsoleSender();
-								String cmds = App.success.replace("%target%", name);
-								plugin.getServer().dispatchCommand(sender1, cmds);
+								defaults();
 							}
-						} else if (cal1.compareTo(cal2) > 0) {
-							App.allowed.put(name, false);
-							if (App.failure.equalsIgnoreCase("default")) {
-								player.kickPlayer("You are not old enough to play on this server");
-							} else if (!App.failure.equalsIgnoreCase("default")) {
-								CommandSender sender1 = plugin.getServer().getConsoleSender();
-								String cmds = App.failure.replace("%target%", name);
-								plugin.getServer().dispatchCommand(sender1, cmds);
+							if (!App.success.equalsIgnoreCase("default")) {
+								nons();
+							}
+						} else {
+							if (year4 < year3) {
+								App.allowed.put(name, false);
+								if (App.failure.equalsIgnoreCase("default")) {
+									defaultf();
+								}
+								if (!App.failure.equalsIgnoreCase("default")) {
+									nonf();
+								}
+							}
+							if (year4 == year3) {
+								if (month4 > month3) {
+									App.allowed.put(name, true);
+									if (App.success.equalsIgnoreCase("default")) {
+										defaults();
+									}
+									if (!App.success.equalsIgnoreCase("default")) {
+										nons();
+									}
+								} else {
+									if (month4 < month3) {
+										App.allowed.put(name, false);
+										if (App.failure.equalsIgnoreCase("default")) {
+											defaultf();
+										}
+										if (!App.failure.equalsIgnoreCase("default")) {
+											nonf();
+										}
+									}
+									if (month4 == month3) {
+										if (date4 >= date3) {
+											App.allowed.put(name, true);
+											if (App.success.equalsIgnoreCase("default")) {
+												defaults();
+											}
+											if (!App.success.equalsIgnoreCase("default")) {
+												nons();
+											}
+										} else if (date4 < date3) {
+											App.allowed.put(name, false);
+											if (App.failure.equalsIgnoreCase("default")) {
+												defaultf();
+											}
+											if (!App.failure.equalsIgnoreCase("default")) {
+												nonf();
+											}
+										}
+									}
+								}
 							}
 						}
 					}
@@ -108,32 +150,74 @@ public class DOBCommand implements CommandExecutor {
 					String month2 = m3 + m4;
 					String date2 = d3 + d4;
 					int year3 = Integer.parseInt(year2);
-					int month3 = Integer.parseInt(month2) - 1;
+					int month3 = Integer.parseInt(month2);
 					int date3 = Integer.parseInt(date2);
-					their.setYear(year3);
-					their.setMonth(month3);
+					their.setYear(year3 - 1900);
+					their.setMonth(month3 - 1);
 					their.setDate(date3);
-					cal2.setTime(their);
+
+					int year4 = now.getYear();
+					int month4 = now.getMonth();
+					int date4 = now.getDate();
 					App.DOB.put(name, their);
 					if (App.allowed.get(name) == null) {
-						if (cal1.compareTo(cal2) <= 0) {
+						if (year4 > year3) {
 							App.allowed.put(name, true);
 							if (App.success.equalsIgnoreCase("default")) {
-								player.sendMessage("You are old enough to play on this server");
-							} else if (!App.success.equalsIgnoreCase("default")) {
-								CommandSender sender1 = plugin.getServer().getConsoleSender();
-								String cmds = App.success.replace("%target%", name);
-								plugin.getServer().dispatchCommand(sender1, cmds);
+								defaults();
 							}
-
-						} else if (cal1.compareTo(cal2) > 0) {
-							App.allowed.put(name, false);
-							if (App.failure.equalsIgnoreCase("default")) {
-								player.kickPlayer("You are not old enough to play on this server");
-							} else if (!App.failure.equalsIgnoreCase("default")) {
-								CommandSender sender1 = plugin.getServer().getConsoleSender();
-								String cmds = App.failure.replace("%target%", name);
-								plugin.getServer().dispatchCommand(sender1, cmds);
+							if (!App.success.equalsIgnoreCase("default")) {
+								nons();
+							}
+						} else {
+							if (year4 < year3) {
+								App.allowed.put(name, false);
+								if (App.failure.equalsIgnoreCase("default")) {
+									defaultf();
+								}
+								if (!App.failure.equalsIgnoreCase("default")) {
+									nonf();
+								}
+							}
+							if (year4 == year3) {
+								if (month4 > month3) {
+									App.allowed.put(name, true);
+									if (App.success.equalsIgnoreCase("default")) {
+										defaults();
+									}
+									if (!App.success.equalsIgnoreCase("default")) {
+										nons();
+									}
+								} else {
+									if (month4 < month3) {
+										App.allowed.put(name, false);
+										if (App.failure.equalsIgnoreCase("default")) {
+											defaultf();
+										}
+										if (!App.failure.equalsIgnoreCase("default")) {
+											nonf();
+										}
+									}
+									if (month4 == month3) {
+										if (date4 >= date3) {
+											App.allowed.put(name, true);
+											if (App.success.equalsIgnoreCase("default")) {
+												defaults();
+											}
+											if (!App.success.equalsIgnoreCase("default")) {
+												nons();
+											}
+										} else if (date4 < date3) {
+											App.allowed.put(name, false);
+											if (App.failure.equalsIgnoreCase("default")) {
+												defaultf();
+											}
+											if (!App.failure.equalsIgnoreCase("default")) {
+												nonf();
+											}
+										}
+									}
+								}
 							}
 						}
 					}
@@ -147,5 +231,25 @@ public class DOBCommand implements CommandExecutor {
 			return true;
 		}
 		return false;
+	}
+
+	void defaults() {
+		player.sendMessage("You are old enough to play on this server");
+	}
+
+	void defaultf() {
+		player.kickPlayer("You are not old enough to play on this server");
+	}
+
+	void nons() {
+		CommandSender sender1 = plugin.getServer().getConsoleSender();
+		String cmds = App.success.replace("%target%", name);
+		plugin.getServer().dispatchCommand(sender1, cmds);
+	}
+
+	void nonf() {
+		CommandSender sender1 = plugin.getServer().getConsoleSender();
+		String cmds = App.failure.replace("%target%", name);
+		plugin.getServer().dispatchCommand(sender1, cmds);
 	}
 }

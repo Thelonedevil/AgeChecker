@@ -1,6 +1,5 @@
 package com.github.thelonedevil.AgeChecker;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import org.bukkit.ChatColor;
@@ -27,16 +26,15 @@ public class EListener implements Listener {
 		Player player = event.getPlayer();
 		name = player.getName();
 		Date now = new Date();
-		Calendar cal1 = Calendar.getInstance();
-		cal1.setTime(now);
-		cal1.add(Calendar.YEAR, -App.age);
-		Calendar cal2 = Calendar.getInstance();
+		Date their;
+		int year5 = now.getYear();
+		now.setYear(year5 - App.age);
 
 		if (App.DOB.get(name) == null) {
 			player.sendMessage(ChatColor.BOLD + "Please" + ChatColor.UNDERLINE + ChatColor.BLUE + " verify your age" + ChatColor.RESET + " by using the command:" + ChatColor.GOLD + " /DOB"
-					+ ChatColor.GREEN + " <Your date of birth goes here in the format " + ChatColor.DARK_AQUA + App.dateformat + ">");
+					+ ChatColor.GREEN + " <Your date of birth goes here in the format " + ChatColor.DARK_AQUA + App.dateformat + ChatColor.GREEN + ">");
 		} else if (App.DOB.get(name) != null) {
-			cal2.setTime(App.DOB.get(name));
+			their = (App.DOB.get(name));
 			if (App.allowed.get(name) == true) {
 				int date = App.DOB.get(name).getDate();
 				int month = App.DOB.get(name).getMonth();
@@ -69,30 +67,104 @@ public class EListener implements Listener {
 				String message = date + " of " + month1;
 				plugin.getServer().broadcastMessage(ChatColor.BLUE + name + "'s birthday is " + ChatColor.YELLOW + message);
 			} else if (App.allowed.get(name) == false) {
-				if (cal1.compareTo(cal2) <= 0) {
+				int year4 = now.getYear();
+				int month4 = now.getMonth();
+				int date4 = now.getDate();
+				int year3 = their.getYear();
+				int month3 = their.getMonth();
+				int date3 = their.getDate();
+				if (year4 > year3) {
 					App.allowed.put(name, true);
-					if (App.success == "default") {
+					if (App.success.equalsIgnoreCase("default")) {
 						player.sendMessage("You are old enough to play on this server");
-					} else if (App.success != "default") {
-						CommandSender sender = plugin.getServer().getConsoleSender();
-						String cmds = App.success.replace("%target%", name);
-						plugin.getServer().dispatchCommand(sender, cmds);
 					}
-
-				} else if (cal1.compareTo(cal2) > 0) {
-					App.allowed.put(name, false);
-					if (App.failure == "default") {
-						player.kickPlayer("You are not old enough to play on this server");
-					} else if (App.failure != "default") {
-						CommandSender sender = plugin.getServer().getConsoleSender();
-						String cmds = App.failure.replace("%target%", name);
-						plugin.getServer().dispatchCommand(sender, cmds);
-
+					if (!App.success.equalsIgnoreCase("default")) {
+						CommandSender sender1 = plugin.getServer().getConsoleSender();
+						String cmds = App.success.replace("%target%", name);
+						plugin.getServer().dispatchCommand(sender1, cmds);
+					}
+				} else {
+					if (year4 < year3) {
+						App.allowed.put(name, false);
+						if (App.failure.equalsIgnoreCase("default")) {
+							player.kickPlayer("You are not old enough to play on this server");
+						}
+						if (!App.failure.equalsIgnoreCase("default")) {
+							CommandSender sender1 = plugin.getServer().getConsoleSender();
+							String cmds = App.failure.replace("%target%", name);
+							plugin.getServer().dispatchCommand(sender1, cmds);
+						}
+					}
+					if (year4 == year3) {
+						if (month4 > month3) {
+							App.allowed.put(name, true);
+							if (App.success.equalsIgnoreCase("default")) {
+								player.sendMessage("You are old enough to play on this server");
+							}
+							if (!App.success.equalsIgnoreCase("default")) {
+								CommandSender sender1 = plugin.getServer().getConsoleSender();
+								String cmds = App.success.replace("%target%", name);
+								plugin.getServer().dispatchCommand(sender1, cmds);
+							}
+						} else {
+							if (month4 < month3) {
+								App.allowed.put(name, false);
+								if (App.failure.equalsIgnoreCase("default")) {
+									player.kickPlayer("You are not old enough to play on this server");
+								}
+								if (!App.failure.equalsIgnoreCase("default")) {
+									CommandSender sender1 = plugin.getServer().getConsoleSender();
+									String cmds = App.failure.replace("%target%", name);
+									plugin.getServer().dispatchCommand(sender1, cmds);
+								}
+							}
+							if (month4 == month3) {
+								if (date4 >= date3) {
+									App.allowed.put(name, true);
+									if (App.success.equalsIgnoreCase("default")) {
+										player.sendMessage("You are old enough to play on this server");
+									}
+									if (!App.success.equalsIgnoreCase("default")) {
+										CommandSender sender1 = plugin.getServer().getConsoleSender();
+										String cmds = App.success.replace("%target%", name);
+										plugin.getServer().dispatchCommand(sender1, cmds);
+									}
+								} else if (date4 < date3) {
+									App.allowed.put(name, false);
+									if (App.failure.equalsIgnoreCase("default")) {
+										player.kickPlayer("You are not old enough to play on this server");
+									}
+									if (!App.failure.equalsIgnoreCase("default")) {
+										CommandSender sender1 = plugin.getServer().getConsoleSender();
+										String cmds = App.failure.replace("%target%", name);
+										plugin.getServer().dispatchCommand(sender1, cmds);
+									}
+								}
+							}
+						}
 					}
 				}
+				/*
+				 * if (now.compareTo(their) <= 0) { App.allowed.put(name, true);
+				 * /*if (App.success == "default") {
+				 * player.sendMessage("You are old enough to play on this server"
+				 * ); } else if (App.success != "default") { CommandSender
+				 * sender = plugin.getServer().getConsoleSender(); String cmds =
+				 * App.success.replace("%target%", name);
+				 * plugin.getServer().dispatchCommand(sender, cmds); }
+				 * 
+				 * } else if (now.compareTo(their) > 0) { App.allowed.put(name,
+				 * false); if (App.failure == "default") {
+				 * player.kickPlayer("You are not old enough to play on this server"
+				 * ); } else if (App.failure != "default") { CommandSender
+				 * sender = plugin.getServer().getConsoleSender(); String cmds =
+				 * App.failure.replace("%target%", name);
+				 * plugin.getServer().dispatchCommand(sender, cmds);
+				 * 
+				 * } }
+				 */
 			}
 		}
-
 	}
 
 	@EventHandler

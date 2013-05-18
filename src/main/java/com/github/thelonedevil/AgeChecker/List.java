@@ -24,7 +24,7 @@ public class List implements CommandExecutor {
 					if (App.DOB.containsKey(key)) {
 						int date = App.DOB.get(key).getDate();
 						int month = App.DOB.get(key).getMonth();
-						int year = App.DOB.get(key).getYear();
+						int year = App.DOB.get(key).getYear()+1900;
 						String month1 = null;
 						if (month == 0) {
 							month1 = "January";
