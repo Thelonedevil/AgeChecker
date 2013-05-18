@@ -29,7 +29,7 @@ public class Birthdays implements CommandExecutor {
 				int d2 = date.getDate();
 				int m1 = now.getMonth();
 				int m2 = date.getMonth();
-				int y1 = now.getYear() + 1900;
+				int y1 = now.getYear();
 				int y2 = date.getYear();
 				if (m1 == m2) {
 					if (d1 == d2) {
