@@ -29,12 +29,11 @@ public class Birthdays implements CommandExecutor {
 				int d2 = date.getDate();
 				int m1 = now.getMonth();
 				int m2 = date.getMonth();
-				int y1 = now.getYear();
 				int y2 = date.getYear();
 				if (m1 == m2) {
 					if (d1 == d2) {
 						if (App.birthdaysage == true) {
-							int age = y1 - y2;
+							int age = 2013 - y2;
 							String age1 = "(" + age + ")";
 							message[array] = key+age1+", ";
 						} else if (App.birthdaysage == false) {
