@@ -1,7 +1,16 @@
 name: AgeChecker
 main: com.github.thelonedevil.AgeChecker.App
-version: 1
+version: 5
 commands:
    DOB:
       description: This command registers your date of birth with the server
-      usage: /<command> [DD/MM/YYYY]
+      usage: /<command> <DD/MM/YYYY>
+   bypass:
+      description: This command allows an OP to allow a player to bypass the age check
+      usage: /<command> <target player> <true or false>
+   birthday:
+      description: This command displays the target players birthday
+      usage: /<command> <target player>
+   birthdays:
+      description: This command displays the people who have birthdays today
+      usage: /<command> 
