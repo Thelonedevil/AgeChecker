@@ -25,8 +25,6 @@ public class DOBCommand implements CommandExecutor {
 			name = player.getName();
 			Date now = new Date();
 			Date their = new Date();
-			int year5 = now.getYear();
-			now.setYear(year5 - App.age);
 			String dob1;
 			try {
 				dob1 = args[0];
@@ -58,18 +56,21 @@ public class DOBCommand implements CommandExecutor {
 					String year2 = y5 + y6 + y7 + y8;
 					String month2 = m3 + m4;
 					String date2 = d3 + d4;
-					int year3 = Integer.parseInt(year2);
-					int month3 = Integer.parseInt(month2);
+					int year3 = Integer.parseInt(year2) - 1900;
+					int month3 = Integer.parseInt(month2) - 1;
 					int date3 = Integer.parseInt(date2);
-					their.setYear(year3 - 1900);
-					their.setMonth(month3 - 1);
+					their.setYear(year3);
+					their.setMonth(month3);
 					their.setDate(date3);
-					int year4 = now.getYear();
+					int year4 = now.getYear() - App.age;
+					// plugin.getServer().getLogger().info("the year=" + year4);
+					// plugin.getServer().getLogger().info("their year=" +
+					// their.getYear());
 					int month4 = now.getMonth();
 					int date4 = now.getDate();
 					App.DOB.put(name, their);
 					if (App.allowed.get(name) == null) {
-						if (year4 > year4) {
+						if (year4 > year3) {
 							App.allowed.put(name, true);
 							if (App.success.equalsIgnoreCase("default")) {
 								defaults();
@@ -77,8 +78,24 @@ public class DOBCommand implements CommandExecutor {
 							if (!App.success.equalsIgnoreCase("default")) {
 								nons();
 							}
-						} else {
-							if (year4 < year3) {
+						} else if (year4 < year3) {
+							App.allowed.put(name, false);
+							if (App.failure.equalsIgnoreCase("default")) {
+								defaultf();
+							}
+							if (!App.failure.equalsIgnoreCase("default")) {
+								nonf();
+							}
+						} else if (year4 == year3) {
+							if (month4 > month3) {
+								App.allowed.put(name, true);
+								if (App.success.equalsIgnoreCase("default")) {
+									defaults();
+								}
+								if (!App.success.equalsIgnoreCase("default")) {
+									nons();
+								}
+							} else if (month4 < month3) {
 								App.allowed.put(name, false);
 								if (App.failure.equalsIgnoreCase("default")) {
 									defaultf();
@@ -86,9 +103,8 @@ public class DOBCommand implements CommandExecutor {
 								if (!App.failure.equalsIgnoreCase("default")) {
 									nonf();
 								}
-							}
-							if (year4 == year3) {
-								if (month4 > month3) {
+							} else if (month4 == month3) {
+								if (date4 >= date3) {
 									App.allowed.put(name, true);
 									if (App.success.equalsIgnoreCase("default")) {
 										defaults();
@@ -96,39 +112,19 @@ public class DOBCommand implements CommandExecutor {
 									if (!App.success.equalsIgnoreCase("default")) {
 										nons();
 									}
-								} else {
-									if (month4 < month3) {
-										App.allowed.put(name, false);
-										if (App.failure.equalsIgnoreCase("default")) {
-											defaultf();
-										}
-										if (!App.failure.equalsIgnoreCase("default")) {
-											nonf();
-										}
+								} else if (date4 < date3) {
+									App.allowed.put(name, false);
+									if (App.failure.equalsIgnoreCase("default")) {
+										defaultf();
 									}
-									if (month4 == month3) {
-										if (date4 >= date3) {
-											App.allowed.put(name, true);
-											if (App.success.equalsIgnoreCase("default")) {
-												defaults();
-											}
-											if (!App.success.equalsIgnoreCase("default")) {
-												nons();
-											}
-										} else if (date4 < date3) {
-											App.allowed.put(name, false);
-											if (App.failure.equalsIgnoreCase("default")) {
-												defaultf();
-											}
-											if (!App.failure.equalsIgnoreCase("default")) {
-												nonf();
-											}
-										}
+									if (!App.failure.equalsIgnoreCase("default")) {
+										nonf();
 									}
 								}
 							}
 						}
 					}
+
 				} else if (App.dateformat.equalsIgnoreCase("MM/DD/YYYY")) {
 					y1 = dob1.charAt(6);
 					y2 = dob1.charAt(7);
@@ -149,14 +145,16 @@ public class DOBCommand implements CommandExecutor {
 					String year2 = y5 + y6 + y7 + y8;
 					String month2 = m3 + m4;
 					String date2 = d3 + d4;
-					int year3 = Integer.parseInt(year2);
-					int month3 = Integer.parseInt(month2);
+					int year3 = Integer.parseInt(year2) - 1900;
+					int month3 = Integer.parseInt(month2) - 1;
 					int date3 = Integer.parseInt(date2);
-					their.setYear(year3 - 1900);
-					their.setMonth(month3 - 1);
+					their.setYear(year3);
+					their.setMonth(month3);
 					their.setDate(date3);
-
-					int year4 = now.getYear();
+					int year4 = now.getYear() - App.age;
+					// plugin.getServer().getLogger().info("the year=" + year4);
+					// plugin.getServer().getLogger().info("their year=" +
+					// their.getYear());
 					int month4 = now.getMonth();
 					int date4 = now.getDate();
 					App.DOB.put(name, their);
@@ -169,8 +167,24 @@ public class DOBCommand implements CommandExecutor {
 							if (!App.success.equalsIgnoreCase("default")) {
 								nons();
 							}
-						} else {
-							if (year4 < year3) {
+						} else if (year4 < year3) {
+							App.allowed.put(name, false);
+							if (App.failure.equalsIgnoreCase("default")) {
+								defaultf();
+							}
+							if (!App.failure.equalsIgnoreCase("default")) {
+								nonf();
+							}
+						} else if (year4 == year3) {
+							if (month4 > month3) {
+								App.allowed.put(name, true);
+								if (App.success.equalsIgnoreCase("default")) {
+									defaults();
+								}
+								if (!App.success.equalsIgnoreCase("default")) {
+									nons();
+								}
+							} else if (month4 < month3) {
 								App.allowed.put(name, false);
 								if (App.failure.equalsIgnoreCase("default")) {
 									defaultf();
@@ -178,9 +192,8 @@ public class DOBCommand implements CommandExecutor {
 								if (!App.failure.equalsIgnoreCase("default")) {
 									nonf();
 								}
-							}
-							if (year4 == year3) {
-								if (month4 > month3) {
+							} else if (month4 == month3) {
+								if (date4 >= date3) {
 									App.allowed.put(name, true);
 									if (App.success.equalsIgnoreCase("default")) {
 										defaults();
@@ -188,40 +201,20 @@ public class DOBCommand implements CommandExecutor {
 									if (!App.success.equalsIgnoreCase("default")) {
 										nons();
 									}
-								} else {
-									if (month4 < month3) {
-										App.allowed.put(name, false);
-										if (App.failure.equalsIgnoreCase("default")) {
-											defaultf();
-										}
-										if (!App.failure.equalsIgnoreCase("default")) {
-											nonf();
-										}
+								} else if (date4 < date3) {
+									App.allowed.put(name, false);
+									if (App.failure.equalsIgnoreCase("default")) {
+										defaultf();
 									}
-									if (month4 == month3) {
-										if (date4 >= date3) {
-											App.allowed.put(name, true);
-											if (App.success.equalsIgnoreCase("default")) {
-												defaults();
-											}
-											if (!App.success.equalsIgnoreCase("default")) {
-												nons();
-											}
-										} else if (date4 < date3) {
-											App.allowed.put(name, false);
-											if (App.failure.equalsIgnoreCase("default")) {
-												defaultf();
-											}
-											if (!App.failure.equalsIgnoreCase("default")) {
-												nonf();
-											}
-										}
+									if (!App.failure.equalsIgnoreCase("default")) {
+										nonf();
 									}
 								}
 							}
 						}
 					}
 				}
+
 			} catch (ArrayIndexOutOfBoundsException e) {
 				plugin.errorLogger();
 				e.printStackTrace();

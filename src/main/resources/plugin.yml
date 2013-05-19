@@ -1,6 +1,6 @@
 name: AgeChecker
 main: com.github.thelonedevil.AgeChecker.App
-version: 5
+version: 6
 commands:
    DOB:
       description: This command registers your date of birth with the server
