@@ -144,25 +144,6 @@ public class EListener implements Listener {
 						}
 					}
 				}
-				/*
-				 * if (now.compareTo(their) <= 0) { App.allowed.put(name, true);
-				 * /*if (App.success == "default") {
-				 * player.sendMessage("You are old enough to play on this server"
-				 * ); } else if (App.success != "default") { CommandSender
-				 * sender = plugin.getServer().getConsoleSender(); String cmds =
-				 * App.success.replace("%target%", name);
-				 * plugin.getServer().dispatchCommand(sender, cmds); }
-				 * 
-				 * } else if (now.compareTo(their) > 0) { App.allowed.put(name,
-				 * false); if (App.failure == "default") {
-				 * player.kickPlayer("You are not old enough to play on this server"
-				 * ); } else if (App.failure != "default") { CommandSender
-				 * sender = plugin.getServer().getConsoleSender(); String cmds =
-				 * App.failure.replace("%target%", name);
-				 * plugin.getServer().dispatchCommand(sender, cmds);
-				 * 
-				 * } }
-				 */
 			}
 		}
 	}
