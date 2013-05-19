@@ -31,8 +31,6 @@ public class Birthdays implements CommandExecutor {
 				int m2 = date.getMonth();
 				int y1 = now.getYear();
 				int y2 = date.getYear();
-				plugin.getServer().getLogger().info("now is "+y1);
-				plugin.getServer().getLogger().info(key+" is "+y2);
 				if (m1 == m2) {
 					if (d1 == d2) {
 						if (App.birthdaysage == true) {
