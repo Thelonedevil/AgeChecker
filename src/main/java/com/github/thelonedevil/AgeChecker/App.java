@@ -1,13 +1,20 @@
 package com.github.thelonedevil.AgeChecker;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,7 +36,7 @@ public class App extends JavaPlugin {
 		config();
 		getCommand("DOB").setExecutor(new DOBCommand(this));
 		getCommand("bypass").setExecutor(new BypassCommand(this));
-		getCommand("birthday").setExecutor(new List(this));
+		getCommand("birthday").setExecutor(new Birthday(this));
 		getCommand("birthdays").setExecutor(new Birthdays(this));
 		getServer().getPluginManager().registerEvents(new EListener(this), this);
 		getLogger().info("Listeners have been enabled");
@@ -38,7 +45,7 @@ public class App extends JavaPlugin {
 		allowedyaml();
 		allowedyamls();
 		task();
-		getLogger().info("Using "+dateformat+ " as the date format");
+		getLogger().info("Using " + dateformat + " as the date format");
 		getLogger().info("Plugin enabled");
 	}
 
@@ -57,10 +64,19 @@ public class App extends JavaPlugin {
 		File dobyaml1 = new File("plugins/AgeChecker/DOB.yml");
 		if (dobyaml1.exists()) {
 			try {
-				InputStream input = new FileInputStream(dobyaml1);
-				Yaml yaml = new Yaml();
-				DOB = (HashMap<String, Date>) yaml.load(input);
+				BufferedReader br = null;
+				br = new BufferedReader(new FileReader(dobyaml1));
+				List<String> h = new ArrayList<String>();
+
+				while (br.readLine() != null) {
+					h.add(br.readLine());
+				}
+				br.close();
+				// Yaml yaml = new Yaml();
+				// allowed = (HashMap<String, Boolean>) yaml.load(input);
 			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -71,10 +87,19 @@ public class App extends JavaPlugin {
 		File allowedyaml1 = new File("plugins/AgeChecker/allowed.yml");
 		if (allowedyaml1.exists()) {
 			try {
-				InputStream input = new FileInputStream(allowedyaml1);
-				Yaml yaml = new Yaml();
-				allowed = (HashMap<String, Boolean>) yaml.load(input);
+				BufferedReader br = null;
+				br = new BufferedReader(new FileReader(allowedyaml1));
+				List<String> h = new ArrayList<String>();
+
+				while (br.readLine() != null) {
+					h.add(br.readLine());
+				}
+				br.close();
+				// Yaml yaml = new Yaml();
+				// allowed = (HashMap<String, Boolean>) yaml.load(input);
 			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -82,39 +107,44 @@ public class App extends JavaPlugin {
 
 	void dobyamls() {
 		File dobyaml1 = new File("plugins/AgeChecker/DOB.yml");
-		Yaml yaml = new Yaml();
-		String output = yaml.dump(DOB);
-		try {
-			getDataFolder().mkdirs();
-			dobyaml1.createNewFile();
-			PrintStream out = new PrintStream("plugins/AgeChecker/DOB.yml");
-			out.print(output);
-			out.close();
-		} catch (FileNotFoundException e) {
-			errorLogger();
-			e.printStackTrace();
-		} catch (IOException e) {
-			errorLogger();
-			e.printStackTrace();
+		for (String key : DOB.keySet()) {
+			String dump = DOB.get(key).toString().substring(0, 10) + " " + DOB.get(key).toString().substring(24);
+			String output = "\n" + key + ": " + dump;
+			try {
+				getDataFolder().mkdirs();
+				dobyaml1.createNewFile();
+				BufferedWriter out = new BufferedWriter(new FileWriter("plugins/AgeChecker/DOB.yml", true));
+				out.write(output);
+				out.close();
+			} catch (FileNotFoundException e) {
+				errorLogger();
+				e.printStackTrace();
+			} catch (IOException e) {
+				errorLogger();
+				e.printStackTrace();
+			}
 		}
 	}
 
 	void allowedyamls() {
 		File allowedyaml1 = new File("plugins/AgeChecker/allowed.yml");
-		Yaml yaml = new Yaml();
-		String output = yaml.dump(allowed);
-		try {
-			getDataFolder().mkdirs();
-			allowedyaml1.createNewFile();
-			PrintStream out = new PrintStream("plugins/AgeChecker/allowed.yml");
-			out.print(output);
-			out.close();
-		} catch (FileNotFoundException e) {
-			errorLogger();
-			e.printStackTrace();
-		} catch (IOException e) {
-			errorLogger();
-			e.printStackTrace();
+
+		for (String key : allowed.keySet()) {
+			String dump = allowed.get(key).toString();
+			String output = "\n" + key + ": " + dump;
+			try {
+				getDataFolder().mkdirs();
+				allowedyaml1.createNewFile();
+				BufferedWriter out = new BufferedWriter(new FileWriter("plugins/AgeChecker/allowed.yml", true));
+				out.write(output);
+				out.close();
+			} catch (FileNotFoundException e) {
+				errorLogger();
+				e.printStackTrace();
+			} catch (IOException e) {
+				errorLogger();
+				e.printStackTrace();
+			}
 		}
 	}
 

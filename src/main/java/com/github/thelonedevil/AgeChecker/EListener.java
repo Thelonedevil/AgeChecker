@@ -77,69 +77,48 @@ public class EListener implements Listener {
 					App.allowed.put(name, true);
 					if (App.success.equalsIgnoreCase("default")) {
 						player.sendMessage("You are old enough to play on this server");
-					}
-					if (!App.success.equalsIgnoreCase("default")) {
+					} else if (!App.success.equalsIgnoreCase("default")) {
 						CommandSender sender1 = plugin.getServer().getConsoleSender();
 						String cmds = App.success.replace("%target%", name);
 						plugin.getServer().dispatchCommand(sender1, cmds);
 					}
-				} else {
-					if (year4 < year3) {
+				} else if (year4 < year3) {
+					App.allowed.put(name, false);
+					if (App.failure.equalsIgnoreCase("default")) {
+						player.kickPlayer("You are not old enough to play on this server");
+					}
+
+				} else if (year4 == year3) {
+					if (month4 > month3) {
+						App.allowed.put(name, true);
+						if (App.success.equalsIgnoreCase("default")) {
+							player.sendMessage("You are old enough to play on this server");
+						} else if (!App.success.equalsIgnoreCase("default")) {
+							CommandSender sender1 = plugin.getServer().getConsoleSender();
+							String cmds = App.success.replace("%target%", name);
+							plugin.getServer().dispatchCommand(sender1, cmds);
+						}
+					} else if (month4 < month3) {
 						App.allowed.put(name, false);
 						if (App.failure.equalsIgnoreCase("default")) {
 							player.kickPlayer("You are not old enough to play on this server");
 						}
-						if (!App.failure.equalsIgnoreCase("default")) {
-							CommandSender sender1 = plugin.getServer().getConsoleSender();
-							String cmds = App.failure.replace("%target%", name);
-							plugin.getServer().dispatchCommand(sender1, cmds);
-						}
-					}
-					if (year4 == year3) {
-						if (month4 > month3) {
+
+					} else if (month4 == month3) {
+						if (date4 >= date3) {
 							App.allowed.put(name, true);
 							if (App.success.equalsIgnoreCase("default")) {
 								player.sendMessage("You are old enough to play on this server");
-							}
-							if (!App.success.equalsIgnoreCase("default")) {
+							} else if (!App.success.equalsIgnoreCase("default")) {
 								CommandSender sender1 = plugin.getServer().getConsoleSender();
 								String cmds = App.success.replace("%target%", name);
 								plugin.getServer().dispatchCommand(sender1, cmds);
 							}
-						} else {
-							if (month4 < month3) {
-								App.allowed.put(name, false);
-								if (App.failure.equalsIgnoreCase("default")) {
-									player.kickPlayer("You are not old enough to play on this server");
-								}
-								if (!App.failure.equalsIgnoreCase("default")) {
-									CommandSender sender1 = plugin.getServer().getConsoleSender();
-									String cmds = App.failure.replace("%target%", name);
-									plugin.getServer().dispatchCommand(sender1, cmds);
-								}
-							}
-							if (month4 == month3) {
-								if (date4 >= date3) {
-									App.allowed.put(name, true);
-									if (App.success.equalsIgnoreCase("default")) {
-										player.sendMessage("You are old enough to play on this server");
-									}
-									if (!App.success.equalsIgnoreCase("default")) {
-										CommandSender sender1 = plugin.getServer().getConsoleSender();
-										String cmds = App.success.replace("%target%", name);
-										plugin.getServer().dispatchCommand(sender1, cmds);
-									}
-								} else if (date4 < date3) {
-									App.allowed.put(name, false);
-									if (App.failure.equalsIgnoreCase("default")) {
-										player.kickPlayer("You are not old enough to play on this server");
-									}
-									if (!App.failure.equalsIgnoreCase("default")) {
-										CommandSender sender1 = plugin.getServer().getConsoleSender();
-										String cmds = App.failure.replace("%target%", name);
-										plugin.getServer().dispatchCommand(sender1, cmds);
-									}
-								}
+						} else if (date4 < date3) {
+							App.allowed.put(name, false);
+							if (App.failure.equalsIgnoreCase("default")) {
+								player.kickPlayer("You are not old enough to play on this server");
+
 							}
 						}
 					}
