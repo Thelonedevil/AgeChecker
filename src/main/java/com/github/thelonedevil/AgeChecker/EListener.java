@@ -30,10 +30,10 @@ public class EListener implements Listener {
 		int year5 = now.getYear();
 		now.setYear(year5 - App.age);
 
-		if (App.DOB.get(name) == null) {
+		if (App.allowed.get(name) == null &&App.DOB.get(name) == null) {
 			player.sendMessage(ChatColor.BOLD + "Please" + ChatColor.UNDERLINE + ChatColor.BLUE + " verify your age" + ChatColor.RESET + " by using the command:" + ChatColor.GOLD + " /DOB"
 					+ ChatColor.GREEN + " <Your date of birth goes here in the format " + ChatColor.DARK_AQUA + App.dateformat + ChatColor.GREEN + ">");
-		} else if (App.DOB.get(name) != null) {
+		} else if (App.allowed.get(name) != null) {
 			their = (App.DOB.get(name));
 			if (App.allowed.get(name) == true) {
 				int date = App.DOB.get(name).getDate();
