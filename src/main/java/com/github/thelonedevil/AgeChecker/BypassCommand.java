@@ -14,7 +14,7 @@ public class BypassCommand implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("bypass") && sender instanceof Player && args !=null) {
+		if (cmd.getName().equalsIgnoreCase("bypass") && sender instanceof Player && args.length == 2) {
 			String perm = "AgeChecker.bypass";
 			if (sender.hasPermission(perm) || sender.isOp()) {
 				String target = args[0];
