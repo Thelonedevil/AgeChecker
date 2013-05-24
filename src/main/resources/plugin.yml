@@ -14,3 +14,4 @@ commands:
    birthdays:
       description: This command displays the people who have birthdays today
       usage: /<command> 
+      
